@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define test(x) cout<<#x<<":"<<x<<endl;
+
+int findCeil(int plants[],int a,int n) {
+    int low =0 , high = n-1;
+    int ans=-1;
+    while(low<=high) {
+        int mid = (low+high)/2;
+        if(plants[mid]>=a) {
+            ans=plants[mid];
+            low = mid+1;
+        }
+        else high = mid-1;
+    }
+    return ans;
+}
+
+int findFloor(int plants[],int a,int n) {
+    int low =0, high =n-1;
+    int ans =-1;
+    while(low<=high) {
+        int mid = (low+high)/2;
+        if(plants[mid] <= a) {
+            ans = plants[mid];
+            high = mid-1;
+        }
+        else low = mid+1;
+    }
+    return ans;
+}
+
+int exist_any_plant_in_between(int a,int b,int plants[],int ns) {
+    int x = findCeil(plants,a,ns);
+    int y = findFloor(plants,b,ns);
+    return (y<=x);
+}
+
+
+void solve() {
+    int np; //number of plants
+    cin>>np;
+    int plants[np];
+    for(int i=0;i<np;i++)
+        cin>>plants[i];
+    sort(plants,plants+np);
+    
+    int ns; // number of sprinklers
+    cin>>ns;
+    int sprinklers[ns]; 
+    for(int i=0;i<ns;i++)
+        cin>>sprinklers[i];
+    sort(sprinklers,sprinklers+ns);
+    
+    
+    int max_radius = 0;
+    
+    // plants existing in between two sprinklers
+    for(int i=0;i<ns-1;i++) {
+        if(exist_any_plant_in_between(sprinklers[i],sprinklers[i+1],plants,ns)) {
+            int curr_radius = (sprinklers[i+1] - sprinklers[i])/2;
+            max_radius = max(max_radius,curr_radius);        
+        }
+    }
+    
+    //  plants existing before first sprinkler
+    int curr_radius_left = sprinklers[0] - plants[0];
+    max_radius = max(max_radius,curr_radius_left);
+    
+    // plants existing after last sprinkler
+    int curr_radius_right = plants[np-1] - sprinklers[ns-1];
+    max_radius = max(max_radius,curr_radius_right);
+    cout<<max_radius;
+}
+
+int main() {
+    int t=1;
+    // cin>>t;
+    while(t--) {
+        solve();
+    }
+}
+
+// Input format:: 
+
+// 3
+// 1 2 3
+// 1
+// 2
+
+//[282475249,622650073,984943658,144108930,470211272,101027544,457850878,458777923],
+// [823564440,115438165,784484492,74243042,114807987,137522503,441282327,16531729,823378840,143542612]

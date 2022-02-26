@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// #define test(x) cout<<#x<<":"<<x<<endl;
+#define test(x) cout<<"";
+
+void solve() {
+    string s;
+    cin>>s;
+    int n =s.size();
+    int i=0,j=n-1;
+    while(i<=j) {
+        while(i!=n and s[i]!='c')
+            i++;
+        while(j!=-1 and s[j]!='a')
+            j--;
+        if(i==n or j==-1)  break;
+        test(i); test(j);
+        if(i<=j)
+            swap(s[i],s[j]);
+    }
+    cout<<s<<endl;
+}
+
+int main() {
+    int t=1;
+    // cin>>t;
+    while(t--) {
+        solve();
+    }
+}
+
+// Time complexity: O(n)
+// Space complexity: O(1)
